@@ -1,0 +1,13 @@
+{
+  "name": "minecraft-ai-companion",
+  "version": "1.0.0",
+  "description": "AI Minecraft Companion Bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "mineflayer": "^4.20.1",
+    "mineflayer-pathfinder": "^2.4.5"
+  }
+}
