@@ -15,12 +15,10 @@ server.listen(PORT, '0.0.0.0', () => {
 
 // Bot Configuration
 const botOptions = {
-    host: 'Smp20.aternos.me', // তোমার Aternos Server IP
-    port: 26849,               // তোমার Server Port
-    username: 'PLAYER', // বটের নাম
+    host: 'Smp20.aternos.me',
+    port: 26849,
+    username: 'Player',
     version: '1.20.4'
-	auth: 'offline',           // ক্র্যাকড সার্ভারের জন্য এটি স্পষ্ট করে দেওয়া ভালো
-    skipValidation: true       // প্রোটোকল ভ্যালিডেশন স্কিপ করা
 };
 
 let bot = null;
@@ -28,7 +26,7 @@ let bot = null;
 function createCompanion() {
     bot = mineflayer.createBot(botOptions);
 
-    // Pathfinder Plugin (রাস্তা চেনার প্লাগইন) লোড করা
+    // Pathfinder Plugin লোড করা
     bot.loadPlugin(pathfinder);
 
     bot.on('spawn', () => {
@@ -53,7 +51,7 @@ function createCompanion() {
                 return;
             }
             bot.chat(`ঠিক আছে ${username}, আমি আসছি!`);
-            bot.pathfinder.setGoal(new GoalFollow(playerEntity, 2), true); // ২ ব্লক দূরত্ব বজায় রেখে সাথে চলবে
+            bot.pathfinder.setGoal(new GoalFollow(playerEntity, 2), true);
         }
 
         // থেমে যাওয়া (Stop Command)
