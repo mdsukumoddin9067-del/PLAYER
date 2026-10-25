@@ -18,7 +18,7 @@ const botOptions = {
     host: 'Smp20.aternos.me', // তোমার Aternos Server IP
     port: 26849,               // তোমার Server Port
     username: 'PLAYER', // বটের নাম
-    version: false
+    version: '1.20.4'
 };
 
 let bot = null;
