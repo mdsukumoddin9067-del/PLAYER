@@ -19,6 +19,8 @@ const botOptions = {
     port: 26849,               // তোমার Server Port
     username: 'PLAYER', // বটের নাম
     version: '1.20.4'
+	auth: 'offline',           // ক্র্যাকড সার্ভারের জন্য এটি স্পষ্ট করে দেওয়া ভালো
+    skipValidation: true       // প্রোটোকল ভ্যালিডেশন স্কিপ করা
 };
 
 let bot = null;
