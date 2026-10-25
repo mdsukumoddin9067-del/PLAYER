@@ -1,0 +1,26 @@
+name: Run AI Companion Bot
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '*/15 * * * *' # প্রতি ৩০ মিনিট পর পর রান চেক করবে
+  workflow_dispatch:
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-node-version: '18'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Start Bot
+        run: node index.js
