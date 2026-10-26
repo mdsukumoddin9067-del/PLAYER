@@ -15,8 +15,8 @@ server.listen(PORT, '0.0.0.0', () => {
 
 // Bot Configuration
 const botOptions = {
-    host: 'Smp20.aternos.me',
-    port: 26849,
+    host: '168.119.78.155',
+    port: 27089,
     username: 'Player',
     version: '1.20.4'
 };
