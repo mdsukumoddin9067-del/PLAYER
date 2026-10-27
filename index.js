@@ -19,7 +19,7 @@ server.listen(PORT, '0.0.0.0');
 const botOptions = {
     host: '168.119.78.155',
     port: 23957,               
-    username: 'GeminiBot_V2',   
+    username: 'Gemini AI',   
     version: '1.21.3',          
     auth: 'offline'
 };
