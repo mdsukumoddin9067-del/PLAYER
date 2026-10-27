@@ -1,26 +1,29 @@
-name: Run AI Companion Bot
+name: Run Minecraft AI Companion
 
 on:
   push:
-    branches: [ main ]
-  schedule:
-    - cron: '*/15 * * * *' # প্রতি ৩০ মিনিট পর পর রান চেক করবে
+    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
   run-bot:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-node-version: '22'
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
 
-      - name: Install Dependencies
-        run: npm install @google/genai
+    - name: Install Dependencies
+      run: |
+        npm install
+        npm install @google/genai
 
-      - name: Start Bot
-        run: node index.js
+    - name: Start Bot
+      env:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      run: node index.js
