@@ -20,7 +20,7 @@ jobs:
           node-node-version: '18'
 
       - name: Install Dependencies
-        run: npm install
+        run: npm install @google/genai
 
       - name: Start Bot
         run: node index.js
