@@ -3,23 +3,19 @@ const http = require('http');
 const { pathfinder, Movements, goals } = require('mineflayer-pathfinder');
 const GoalFollow = goals.GoalFollow;
 
-// Web Health Server for Monitoring/Uptime
 const PORT = process.env.PORT || 10000;
 const server = http.createServer((req, res) => {
     res.writeHead(200, { 'Content-Type': 'text/plain' });
     res.end('AI Companion Bot is Active\n');
 });
-server.listen(PORT, '0.0.0.0', () => {
-    console.log(`[System] Monitor server bound on port ${PORT}`);
-});
+server.listen(PORT, '0.0.0.0');
 
-// Bot Configuration (তোমার Falix সার্ভারের সঠিক তথ্য)
 const botOptions = {
-    host: '168.119.78.155',    // সার্ভার আইপি (কোটেশনের ভেতর রাখা হয়েছে)
-    port: 23957,               // তোমার Falix সার্ভার পোর্ট (প্রয়োজনে পরিবর্তন করে নিও)
-    username: 'GEMINI_Ai',// বটের নাম
-    version: '1.20.4',         // সার্ভারের ভার্সন
-    auth: 'offline'            // ক্র্যাকড সার্ভারের জন্য
+    host: '168.119.78.155',
+    port: 23957,               // তোমার Falix পোর্ট
+    username: 'GeminiBot_V2',   // আগের নাম বদল করে নতুন নাম দিলাম (Double login এড়াতে)
+    version: '1.21.3',          // সার্ভারের ভার্সন
+    auth: 'offline'
 };
 
 let bot = null;
@@ -28,8 +24,6 @@ function createCompanion() {
     console.log(`[Connecting] Attempting to connect to ${botOptions.host}:${botOptions.port} as ${botOptions.username}...`);
     
     bot = mineflayer.createBot(botOptions);
-
-    // Pathfinder Plugin লোড করা
     bot.loadPlugin(pathfinder);
 
     bot.on('spawn', () => {
@@ -37,26 +31,35 @@ function createCompanion() {
         
         const defaultMove = new Movements(bot);
         bot.pathfinder.setMovements(defaultMove);
+
+        // **Anti-AFK Fix:** প্রতি ৩০ সেকেন্ড পর পর বট একটু লাফাবে বা মাথা ঘুরাবে, যাতে আইডল কিক না খায়
+        setInterval(() => {
+            if (bot && bot.entity) {
+                bot.setControlState('jump', true);
+                setTimeout(() => bot.setControlState('jump', false), 500);
+                // ডানে একটু তাকাবে
+                bot.look(bot.entity.yaw + 0.5, bot.entity.pitch, true);
+            }
+        }, 30000);
     });
 
-    // ইন-গেম চ্যাট কমান্ড প্রসেস করা
     bot.on('chat', (username, message) => {
         if (username === bot.username) return;
 
         const cmd = message.toLowerCase().trim();
         const playerEntity = bot.players[username]?.entity;
 
-        if (cmd.includes('follow') || cmd.includes('আসো') || cmd.includes('আমার সাথে আসো')) {
+        if (cmd.includes('follow') || cmd.includes('আসো')) {
             if (!playerEntity) {
-                bot.chat(`আমি তোমাকে দেখতে পাচ্ছি না ${username}! একটু কাছে আসো।`);
+                bot.chat(`আমি দেখতে পাচ্ছি না ${username}!`);
                 return;
             }
-            bot.chat(`ঠিক আছে ${username}, আমি আসছি!`);
+            bot.chat(`আসছি ${username}!`);
             bot.pathfinder.setGoal(new GoalFollow(playerEntity, 2), true);
         }
 
-        if (cmd.includes('stop') || cmd.includes('থামো') || cmd.includes('দাঁড়াও')) {
-            bot.chat('ঠিক আছে, আমি এখানে দাঁড়াচ্ছি।');
+        if (cmd.includes('stop') || cmd.includes('থামো')) {
+            bot.chat('দাঁড়িয়ে গেলাম।');
             bot.pathfinder.setGoal(null);
         }
     });
